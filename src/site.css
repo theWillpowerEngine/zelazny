@@ -1,0 +1,12 @@
+  .action-link {
+    color: blue;
+    cursor: pointer;
+  }
+  .botch-link {
+    color:red;
+    cursor: pointer;
+  }
+  .boon-link {
+    color:green;
+    cursor: pointer;
+  }

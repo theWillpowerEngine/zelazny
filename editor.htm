@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>tweng - Editor</title>
+    <link rel="stylesheet" type="text/css" href="./src/site.css" >
+    <script src="./src/lib/jquery.min.js"></script> 
+  </head>
+  <body>
+
+  <div id="game">
+    <div id="console" style="padding-left:10px; padding-top:5px;"> </div>
+  </div>
+
+  <script type="text/javascript"> 
+    var zelazny = require("./src/zelazny.js")
+    var state = require("./src/state.js")
+    var provider = require("./src/provider.js")
+
+    function navigate(dest, chapter) {
+      if(chapter)
+        window.chapter = chapter
+
+      loadCurrent(dest)
+    }
+      
+    var opts = {  navigate: navigate  }
+    var game = state.create(opts)
+
+    function parse(c) {try { return zelazny.parse(game, c) } catch(ex) {return "Error: " + ex }}
+    function parseSkip(c) {try { return zelazny.parseAndSkipCommands(game, c) } catch(ex) {return "Error: " + ex }}
+    
+    function loadCurrent(name) {
+      provider.load(name, window.chapter, d => {
+        cur = d
+        window.node = name
+        render()
+      })
+    }
+    function render(skip) {
+      var p = skip ? parseSkip : parse
+      $cons.html(p(cur))
+      bindLinks()
+    }
+
+    function replaceAll(target, search, replacement) {
+      return target.replace(new RegExp(search, 'g'), replacement)
+    }
+          
+    function bindLinks() {
+      $(".action-link").off('click').click(e => {
+        var $e = $(e.target)
+        var cmd = $e.next().text()
+        if(zelazny.isNavigating != zelazny.parse(game, "{" + cmd + "}"))
+          render(true)
+      })
+      $(".botch-link").off('click').click(e => {
+        var $e = $(e.target)
+        var cmd = $e.next().text()
+        game.lives -= 1          
+        if(zelazny.isNavigating != zelazny.parse(game, "{" + cmd + "}"))
+          render(true)
+      })
+      $(".boon-link").off('click').click(e => {
+        var $e = $(e.target)
+        var cmd = $e.next().text()
+        game.boons -= 1          
+        if(zelazny.isNavigating != zelazny.parse(game, "{" + cmd + "}"))
+          render(true)
+      })
+    }
+
+    $(() => {
+      window.$cur = $("#game")
+      window.$cons = $("#console")
+      window.cur = ''
+      window.chapter = ''
+      window.node = -1
+
+      loadCurrent(0)
+    })
+    </script>
+  </body>
+</html>

@@ -6,9 +6,7 @@
     "nw": ".\\nwjs\\nw ./",
     "web": "index.htm",
     "test": "node devops/test.js",
-
     "edit": ".\\nwjs\\nw ./ -edit",
-
     "build": "node devops/build.js",
     "dist": ".\\devops\\dist.bat"
   },

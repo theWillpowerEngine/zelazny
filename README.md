@@ -18,9 +18,7 @@ In brief it is a narrative game engine written in javascript for text-based game
 * **Integration Guide:** http://tweng.co/docs/integration
 * **Documentation Home:** http://tweng.co/docs/
 
+### Licensing, etc.
 
-
-
-Free for all non commercial use:  https://creativecommons.org/licenses/by-nc/4.0/
-
-Any inquiries content info@tweng.co
+* Free for all non commercial use under the CC Attribution/NC license:  https://creativecommons.org/licenses/by-nc/4.0/
+* Contact info@tweng.co for any questions or comments

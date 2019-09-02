@@ -36,6 +36,15 @@ var provider = module.exports = {
         provider.current.load(node, cb)
     },
 
+    save(node, chapter, content, cb) {
+        if(!provider.current.save)
+            throw "Save not implemented for current provider"
+
+        if(chapter)
+            provider.chapter = chapter
+        provider.current.save(node, content, cb)
+    },
+
     setProvider(name) {
         if(!(provider.current = provider._provs[name]))
             throw "Provider " + name + " not found"
@@ -66,6 +75,12 @@ var provider = module.exports = {
                     provider.node = name
                     cb(data.toString())
                 });
+            },
+            save(name, content, cb) {
+                var fs = require('fs')
+                var fname = `./nodes/${(provider.chapter ? provider.chapter + "/" : "") + name}`
+                fs.writeFileSync(fname, content)
+                if(cb) cb()
             }
         },
 

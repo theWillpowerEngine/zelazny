@@ -11,6 +11,12 @@
     <div id="console" style="padding-left:10px; padding-top:5px;"> </div>
   </div>
 
+  <div id="editor" style="display:none;">
+    <a href="#" id="stopedit">&lt;&lt; Leave Editor</a><br /><br />
+    
+    <textarea id="code" style="width:90%; min-height:250px;"> </textarea>
+  </div>
+  
   <script type="text/javascript"> 
     var zelazny = require("./src/zelazny.js")
     var state = require("./src/state.js")
@@ -72,9 +78,27 @@
     $(() => {
       window.$cur = $("#game")
       window.$cons = $("#console")
+      window.$ide = $("#editor")
       window.cur = ''
       window.chapter = ''
       window.node = -1
+
+      provider.setProvider('fsedit')
+
+      $cons.dblclick(e => {
+        $cons.hide()
+        $("#code").val(cur)
+        $ide.show()
+      })
+
+      $("#stopedit").click(e => {
+        debugger;
+        provider.save(window.node, window.chapter, $("#code").val(), () => {
+          $ide.hide()
+          loadCurrent(window.node)
+          $cons.show()
+        })
+      })
 
       loadCurrent(0)
     })

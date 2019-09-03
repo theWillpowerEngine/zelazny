@@ -1,7 +1,7 @@
 window["zel"] = null
 
 function setGlobalZelazny(s, z) {
-    if(!s) throw "You must pass either a navigate lambda or a state to setGlobalZelazny"
+    if(!s) s = () => {}
 
     if(!s.navigate && typeof(s) == "function") {    //s is navigate
         if(!z && !zelazny)  throw "Zelazny must be defined globally or passed in to setGlobalZelazny"

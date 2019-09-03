@@ -51,6 +51,12 @@ var provider = module.exports = {
     },
 
     _provs: {
+        template: {
+            load(name, cb) {
+                //load your stuff here and pass it to cb instead of name
+                cb(name)
+            }
+        },
         wjqget: {
             load(name, cb) {
                 $.ajax({
@@ -81,13 +87,6 @@ var provider = module.exports = {
                 var fname = `./nodes/${(provider.chapter ? provider.chapter + "/" : "") + name}`
                 fs.writeFileSync(fname, content)
                 if(cb) cb()
-            }
-        },
-
-        template: {
-            load(name, cb) {
-                //load your stuff here and pass it to cb instead of name
-                cb(name)
             }
         }
     }

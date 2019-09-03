@@ -92,7 +92,6 @@
       })
 
       $("#stopedit").click(e => {
-        debugger;
         provider.save(window.node, window.chapter, $("#code").val(), () => {
           $ide.hide()
           loadCurrent(window.node)

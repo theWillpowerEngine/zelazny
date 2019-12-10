@@ -15,6 +15,7 @@
 In brief it is a narrative game engine written in javascript for text-based games, visual novels and CRPG-type games.  See http://tweng.co for documentation, an online IDE and sandbox to play in.  
 
 * **Newbie Guide:** http://tweng.co/docs/newbie
+* **Language Guide:** http://tweng.co/docs/zelazny (WIP, about 75% complete)
 * **Integration Guide:** http://tweng.co/docs/integrate
 * **Documentation Home:** http://tweng.co/docs/
 

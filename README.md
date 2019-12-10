@@ -18,6 +18,8 @@ In brief it is a narrative game engine written in javascript for text-based game
 * **Integration Guide:** http://tweng.co/docs/integrate
 * **Documentation Home:** http://tweng.co/docs/
 
+docs.txt in the repository root contains complete information which the guides above haven't been updated to include yet, but it's quite terse and mainly serves to show you examples of the syntax.
+
 ### Licensing, etc.
 
 * Free for all non commercial use under the CC Attribution/NC license:  https://creativecommons.org/licenses/by-nc/4.0/

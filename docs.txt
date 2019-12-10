@@ -1,0 +1,109 @@
+Zelazny:  the Easy Language for Amateurs to Zippily Narrate whatever they Yearn to
+                    aka, you try making a sensible double-z acronym
+
+* You can't have numbers at the end of flags
+
+
+
+    *text*, \text\, _text_                  formatting
+
+    ^<cmd> <rest>~                          macro
+
+    [<cmd> <params>]                        "merge tag" ie, insert some conditional text.  Often nested.
+            ie:
+                -It is [?dark dark | light] here
+                -It is [?dark dark | [?light-sensitive painfully ] light] here
+
+
+        cmds (semi-BNF style not literal):
+        
+            ?<flag> <text> [|<text>]        ternary
+            !<flag> <text> [|<text>]        inverted ternary
+            '>'<trait>:<num> <text> [|<text>]       gt          (inclusive.  so if t=2, >t:2 is true)
+            '<'<trait>:<num> <text> [|<text>]       lt          (inclusive.  so if t=2, <t:2 is true)
+            =<trait>:<num> <text> [|<text>]
+            :<trait> <num>:<text>|<num>:<text>...   range (always low to high so:  [:t -3:blah|-1:blah2|blah3] is anything -3 or less blah, -1 or -2 blah2, anything else blah3)
+
+            &<cmd>,<cmd>...                 boolean AND
+            |<cmd>,<cmd>...                 boolean OR
+            @First time text		        Text shown only the first time a node is rendered
+
+            1 [..] [..] [..]                Stop when the first one is true
+
+    {<instruction>[<newline><instruction>]...}
+
+        instructions (ditto)
+
+            [<zone>] is [not] <name>                            add or remove flag to local zone
+            [<zone>] can be <name>[,[ or ] <name>]...           add enumerative flag to local zone
+            [<zone>] can have <name> from <low> to <high>       add trait
+            
+            increment|decrement <trait> [by <#>]                ++ and -- (with safe bounds checking for the trait)
+            set <trait> to <#>					                explicit set (OOB = error)
+
+            add <#> xp to <trait>                               player traits only.  XP rate set in options
+
+            start <story> and go to <node>
+            go to <node>
+
+            <node type> node                                    Set special node type
+
+            name ...                                            Set room name
+            log ...                                             Force logging of text (requires specialLog be set in the options)
+        
+        zones
+                pc | player | you
+                here | node
+                story | section | chapter
+        node types
+                dialogue
+                room
+
+    `link text` => {link handler}
+    `$text` => {handler}            boon link 
+    `!text` => {handler}            botch recovery
+
+
+What is a Dialogue Node?
+
+    A series of one-off conversational item links (which may be gated by flags or whatever) which keeps track of previous responses atop the node.  Uses an implicit [v ...] and
+    a background condition to maintain this state.
+
+    Gives access to special commands in links:
+
+        `Ask about cars` => {
+            topic cars          <--a flag (set once and then true forever), and also the topic-indexer for a single response
+        }
+    
+    and special merges:
+
+        ["cars "BLah blah blah blahbbity blah blah]
+
+    Example:
+
+        [@ Your parents are here, looking eager to talk]
+        ["cars Your dad says, "I like Ford."]
+      
+        [!cars `Ask about cars` => {topic cars}]
+
+
+state.create options
+
+    navigate (required)                     navigation callback                                 (node, story)
+    specialLog                              used for logging in special mode nodes
+    storyFlags, playerFlags, nodeFlags      base flags
+    xpPerLevel                              xp modifier (default: 10)
+    lives                                   starting number of Player lives
+    boons                                   starting number of Player boons
+
+Examples:
+
+{it can be dark or light}
+It is [?dark dark | light] here.  [?light You can find the `door` => {go to 2} easily.]
+
+`Turn on light` => {it is light}
+`Turn off light` => {it is dark}
+
+-----
+
+
